@@ -1,0 +1,190 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>
+@font-face{font-family:'Signika';font-weight:300 700;src:url(fonts/Signika-400.woff2) format('woff2');}
+@font-face{font-family:'Open Sans';font-weight:300 800;src:url(fonts/OpenSans-400.woff2) format('woff2');}
+:root{--blue:#226ab4;--navy:#0b2a4f;--cyan:#66cef8;--green:#00d084;--ink:#1d2733}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:1920px;height:1080px;overflow:hidden;background:#000}
+#stage{position:relative;width:1920px;height:1080px;overflow:hidden;font-family:'Signika',sans-serif}
+.layer{position:absolute;inset:0;display:none}
+.foot{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;transform-origin:50% 50%}
+.mask{overflow:hidden;display:block}
+.mask>span{display:inline-block;will-change:transform}
+.kicker{font-family:'Open Sans';font-weight:700;letter-spacing:.18em;text-transform:uppercase;font-size:30px;color:var(--cyan)}
+/* S1 */
+#s1 .shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(5,20,40,.78) 0%,rgba(5,20,40,.45) 45%,rgba(5,20,40,0) 75%)}
+#s1 .txt{position:absolute;left:130px;bottom:150px}
+#s1 .big{font-weight:700;font-size:200px;line-height:1.0;color:#fff;letter-spacing:-.01em}
+#s1 .big.c{color:var(--cyan)}
+/* wipe */
+#wipe{position:absolute;top:0;bottom:0;width:2300px;left:0;background:var(--blue);display:none;z-index:50;transform:skewX(-12deg)}
+/* S2 */
+#s2{background:#fff}
+#s2 img{position:absolute;left:50%;top:330px;width:1150px;margin-left:-575px}
+#s2 .chips{position:absolute;top:740px;left:0;right:0;display:flex;justify-content:center;gap:22px}
+.chip{font-family:'Open Sans';font-weight:700;font-size:36px;color:#fff;background:var(--blue);padding:16px 34px;border-radius:999px}
+.chip.alt{background:#e8f1fb;color:var(--blue)}
+/* S3 */
+#s3 .shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(6,24,48,.88) 0%,rgba(6,24,48,.6) 50%,rgba(6,24,48,.05) 85%)}
+#s3 .txt{position:absolute;left:130px;top:300px}
+#s3 h2{font-weight:700;font-size:118px;line-height:1.04;color:#fff;margin-top:26px}
+#s3 .age{font-weight:700;font-size:210px;line-height:1;color:var(--green);margin-top:18px}
+/* S4 */
+#s4 .foot{filter:blur(7px) saturate(.8)}
+#s4 .shade{position:absolute;inset:0;background:rgba(9,32,62,.86)}
+#s4 .head{position:absolute;left:130px;top:150px}
+#s4 h2{font-weight:700;font-size:104px;color:#fff;margin-top:14px}
+#s4 .cards{position:absolute;left:130px;right:130px;top:500px;height:330px}
+#s4 .track{position:absolute;left:0;right:0;top:395px;height:8px;border-radius:4px;background:rgba(255,255,255,.15)}
+#s4 .fill{position:absolute;left:0;top:0;bottom:0;border-radius:4px;background:linear-gradient(90deg,var(--cyan),var(--green))}
+#s4 .dot{position:absolute;top:-9px;width:26px;height:26px;margin-left:-13px;border-radius:50%;background:#fff;box-shadow:0 0 24px var(--cyan)}
+.card{position:absolute;top:0;width:386px;height:340px;background:#fff;border-radius:22px;padding:34px 34px;box-shadow:0 30px 60px rgba(0,0,0,.35);transform-origin:50% 100%}
+.card .n{font-family:'Open Sans';font-weight:800;font-size:26px;letter-spacing:.14em;color:#8aa3bf}
+.card .t{font-weight:700;font-size:52px;line-height:1.02;color:var(--blue);margin-top:18px}
+.card .a{font-family:'Open Sans';font-weight:600;font-size:30px;color:#5b6675;position:absolute;left:34px;bottom:30px}
+.card.elite{background:var(--blue)}
+.card.elite .t{color:#fff}.card.elite .n{color:var(--cyan)}.card.elite .a{color:#d9ecff}
+/* S5 */
+#s5 .shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(6,24,48,.9) 0%,rgba(6,24,48,.65) 48%,rgba(6,24,48,.1) 80%)}
+#s5 .txt{position:absolute;left:130px;top:200px}
+#s5 .club{font-weight:700;font-size:124px;line-height:1.08;color:#fff}
+#s5 .list{margin-top:24px}
+/* S6 */
+#s6{background:radial-gradient(ellipse at 50% 40%,#f4f8fd 0%,#dfe9f5 100%)}
+#cam{position:absolute;left:0;top:0;width:1920px;height:1080px;transform-origin:0 0}
+#browser{position:absolute;left:180px;top:95px;width:1560px;border-radius:20px;overflow:hidden;box-shadow:0 40px 90px rgba(20,50,90,.28);background:#fff}
+#browser .bar{height:56px;background:#eef1f5;display:flex;align-items:center;padding:0 22px;gap:10px;border-bottom:1px solid #dde3ea}
+#browser .bar i{width:15px;height:15px;border-radius:50%;background:#ff5f57}
+#browser .bar i:nth-child(2){background:#febc2e}#browser .bar i:nth-child(3){background:#28c840}
+#browser .url{margin-left:24px;flex:1;height:34px;border-radius:17px;background:#fff;font-family:'Open Sans';font-size:17px;color:#4a5563;display:flex;align-items:center;padding-left:20px}
+#page{position:relative;width:1560px;height:877.5px;overflow:hidden}
+#page img{position:absolute;left:0;top:0;width:1920px;height:1080px;transform:scale(.8125);transform-origin:0 0}
+#live{position:absolute;left:0;top:0;width:1920px;height:1080px;transform:scale(.8125);transform-origin:0 0}
+#ban{position:absolute;left:0;top:192px;width:1920px;height:138px;background:#226ab4}
+#bant{position:absolute;left:0;right:0;top:227px;margin-top:-192px;text-align:center;font-family:'Signika';font-size:20px;line-height:25px;color:#fff}
+#btn{position:absolute;left:914px;top:262px;width:93px;height:41px;border-radius:5px;background:#fff;font-family:'Open Sans';font-size:12px;color:#666;display:flex;align-items:center;justify-content:center;transform-origin:50% 50%}
+#ripple{position:absolute;border-radius:50%;border:3px solid #fff;pointer-events:none}
+#cursor{position:absolute;width:46px;z-index:20;filter:drop-shadow(0 4px 6px rgba(0,0,0,.35))}
+/* S7 */
+#s7 .shade{position:absolute;inset:0;background:linear-gradient(0deg,rgba(6,24,48,.85) 0%,rgba(6,24,48,.35) 45%,rgba(6,24,48,0) 70%)}
+#s7 .tag{position:absolute;left:0;right:0;bottom:140px;display:flex;justify-content:center;gap:46px}
+#s7 .tag .mask>span{font-weight:700;font-size:112px;color:#fff}
+#s7 .tag .mask:last-child>span{color:var(--cyan)}
+#s8{background:#fff}
+#s8 img{position:absolute;left:50%;top:300px;width:1000px;margin-left:-500px}
+#s8 .cta{position:absolute;left:0;right:0;top:690px;text-align:center}
+#s8 .cta .l1{font-family:'Open Sans';font-weight:700;font-size:38px;color:#5b6675;letter-spacing:.02em}
+#s8 .cta .l2{font-weight:700;font-size:84px;color:var(--blue);margin-top:10px}
+#flash{position:absolute;inset:0;background:#fff;opacity:0;z-index:60;pointer-events:none}
+</style></head>
+<body><div id="stage">
+  <div class="layer" id="s1"><img class="foot" id="f1"><div class="shade"></div>
+    <div class="txt"><div class="mask"><span class="big" id="s1a">2,500 kids.</span></div><div class="mask"><span class="big c" id="s1b">Every week.</span></div></div></div>
+  <div class="layer" id="s2"><img id="logo2" src="assets/logo1.jpg">
+    <div class="chips"><div class="chip" id="ch1">Football coaching</div><div class="chip alt" id="ch2">Ages 4–15</div><div class="chip alt" id="ch3">Surrey &amp; South West London</div></div></div>
+  <div class="layer" id="s3"><img class="foot" id="f3"><div class="shade"></div>
+    <div class="txt"><div class="mask"><span class="kicker" id="s3k">Founder · Josh Evans</span></div>
+      <h2><div class="mask"><span id="s3a">Chelsea’s youngest</span></div><div class="mask"><span id="s3b">professional coach.</span></div></h2>
+      <div class="mask"><span class="age" id="s3c">At 15.</span></div></div></div>
+  <div class="layer" id="s4"><img class="foot" id="f4"><div class="shade"></div>
+    <div class="head"><div class="mask"><span class="kicker" id="s4k">Every child, one pathway</span></div><h2><div class="mask"><span id="s4h">The Player Path</span></div></h2></div>
+    <div class="cards">
+      <div class="track"><div class="fill" id="fill"></div><div class="dot" id="dot"></div></div>
+      <div class="card" id="k0" style="left:0"><div class="n">01</div><div class="t">Little<br>Legends</div><div class="a">Reception – Year 1</div></div>
+      <div class="card" id="k1" style="left:418px"><div class="n">02</div><div class="t">Pre<br>Academy</div><div class="a">U6 – U8</div></div>
+      <div class="card" id="k2" style="left:836px"><div class="n">03</div><div class="t">Technical Development Centre</div><div class="a">U9 – U12</div></div>
+      <div class="card elite" id="k3" style="left:1254px"><div class="n">04</div><div class="t">Elite<br>Academy</div><div class="a">By invitation</div></div>
+    </div></div>
+  <div class="layer" id="s5"><img class="foot" id="f5"><div class="shade"></div>
+    <div class="txt"><div class="mask"><span class="kicker" id="s5k">Our Academy has played</span></div>
+      <div class="list"><div class="mask"><span class="club" id="c0">Crystal Palace</span></div><div class="mask"><span class="club" id="c1">AFC Wimbledon</span></div><div class="mask"><span class="club" id="c2">Reading</span></div><div class="mask"><span class="club" id="c3">Bristol City</span></div></div></div></div>
+  <div class="layer" id="s6"><div id="cam">
+    <div id="browser"><div class="bar"><i></i><i></i><i></i><div class="url">joshevans.co.uk</div></div>
+      <div id="page"><img src="contact/site-0.png"><div id="live"><div id="ban"><div id="bant">2 WEEKS OF FOOTBALL CAMPS THIS OCTOBER 2026 HALF-TERM – BOOK NOW!</div></div><div id="btn">Book now!</div><div id="ripple"></div></div></div></div>
+    <svg id="cursor" viewBox="0 0 24 24"><path d="M4 2l14 11-6.2.9 3.6 7.4-2.8 1.3-3.5-7.4L4 20z" fill="#111" stroke="#fff" stroke-width="1.4" stroke-linejoin="round"/></svg>
+  </div></div>
+  <div class="layer" id="s7"><img class="foot" id="f7"><div class="shade"></div>
+    <div class="tag"><div class="mask"><span id="t0">Be on it.</span></div><div class="mask"><span id="t1">Believe in it.</span></div><div class="mask"><span id="t2">Be you.</span></div></div></div>
+  <div class="layer" id="s8"><img src="assets/logo1.jpg" id="logo8">
+    <div class="cta"><div class="mask"><span class="l1" id="e1">October half-term camps · Book now at</span></div><div class="mask"><span class="l2" id="e2">joshevans.co.uk</span></div></div></div>
+  <div id="wipe"></div><div id="flash"></div>
+</div>
+<script>
+const FPS=30, DUR=23.7;
+const $=id=>document.getElementById(id);
+const clamp=(x,a=0,b=1)=>Math.min(b,Math.max(a,x));
+const p=(t,a,d)=>clamp((t-a)/d);
+const eo=x=>1-Math.pow(1-x,3), eio=x=>x<.5?4*x*x*x:1-Math.pow(-2*x+2,3)/2;
+const back=x=>{const c=1.5;return 1+(c+1)*Math.pow(x-1,3)+c*Math.pow(x-1,2)};
+// beat-locked scene table
+const S=[['s1',0,3.18],['s2',3.18,5.80],['s3',5.80,8.96],['s4',8.96,13.18],['s5',13.18,16.34],['s6',16.34,20.02],['s7',20.02,22.12],['s8',22.12,DUR]];
+const CLIPS={h1:28,h2:30,h3:24,h4:25,h5:25,c3:106,c4:120,c5:100,c7:78};
+function clip(name,local,speed=1){const n=CLIPS[name];const i=clamp(Math.floor(local*FPS*speed)+1,1,n);return `frames/${name}/${String(i).padStart(4,'0')}.jpg`}
+function rise(el,t,a,d=.42,dist=110){const k=eo(p(t,a,d));el.style.transform=`translateY(${(1-k)*dist}%)`;}
+const pending=[];
+function setSrc(img,src){if(img.getAttribute('src')!==src){img.src=src;pending.push(img.decode().catch(()=>{}));}}
+window.render=async function(t){
+  pending.length=0;
+  for(const [id,a,b] of S) $(id).style.display=(t>=a&&t<b)?'block':'none';
+  // S1 montage on beats
+  if(t<3.18){
+    const cuts=[[0,'h1'],[1.07,'h2'],[1.59,'h4'],[2.12,'h5'],[2.65,'h3']];
+    let c=cuts[0];for(const x of cuts) if(t>=x[0]) c=x;
+    setSrc($('f1'),clip(c[1],t-c[0]));
+    $('f1').style.transform=`scale(${1.04+0.05*p(t,c[0],0.6)})`;
+    rise($('s1a'),t,0.2,.45); rise($('s1b'),t,1.07,.45);
+  }
+  // S2
+  if(t>=3.18&&t<5.80){const k=back(p(t,3.26,.5));$('logo2').style.transform=`scale(${.86+.14*k})`;$('logo2').style.opacity=p(t,3.26,.18);
+    [['ch1',3.62],['ch2',3.86],['ch3',4.10]].forEach(([id,a])=>{const k=back(p(t,a,.4));$(id).style.transform=`translateY(${(1-k)*40}px) scale(${.9+.1*k})`;$(id).style.opacity=p(t,a,.15);});}
+  // S3
+  if(t>=5.80&&t<8.96){setSrc($('f3'),clip('c3',t-5.80));$('f3').style.transform=`scale(${1.06+0.04*p(t,5.8,3.2)})`;
+    rise($('s3k'),t,5.88);rise($('s3a'),t,6.00);rise($('s3b'),t,6.14);
+    const k=back(p(t,6.86,.45));$('s3c').style.transform=`translateY(${(1-eo(p(t,6.86,.3)))*100}%) scale(${.85+.15*k})`;$('s3c').style.transformOrigin='0 100%';}
+  // S4
+  if(t>=8.96&&t<13.18){setSrc($('f4'),clip('c4',t-8.96));$('f4').style.transform=`scale(${1.1})`;
+    rise($('s4k'),t,9.0);rise($('s4h'),t,9.1);
+    const beats=[9.50,10.01,10.54,11.06];
+    beats.forEach((a,i)=>{const k=back(p(t,a,.45));const el=$('k'+i);el.style.opacity=p(t,a,.12);el.style.transform=`translateY(${(1-k)*80}px) scale(${.92+.08*k})`;});
+    // progress line: card centres 193, 611, 1029, 1447 of 1660
+    const centres=[193,611,1029,1447];let x=0;
+    for(let i=0;i<4;i++){const a=beats[i];if(t>=a){x=i==0?centres[0]*eo(p(t,a,.4)):centres[i-1]+(centres[i]-centres[i-1])*eio(p(t,a,.45));}}
+    $('fill').style.width=x+'px';$('dot').style.left=x+'px';$('dot').style.opacity=t>=beats[0]?1:0;}
+  // S5
+  if(t>=13.18&&t<16.34){setSrc($('f5'),clip('c5',t-13.18));$('f5').style.transform=`scale(${1.05+0.05*p(t,13.18,3.2)})`;
+    rise($('s5k'),t,13.24);[13.70,14.22,14.76,15.28].forEach((a,i)=>{const el=$('c'+i);const k=eo(p(t,a,.4));el.style.transform=`translateX(${(1-k)*-105}%)`;});}
+  // S6 browser + zoom + click
+  if(t>=16.34&&t<20.02){
+    // banner centre in stage coords: browser left 180 + 960*.8125, top 95+56+255*.8125
+    const bx=180+960*.8125, by=95+56+322*.8125, Z=2.0;
+    const z=eio(p(t,16.62,.62));const s=1+(Z-1)*z;
+    const tx=(960-bx*s)*z+0*(1-z), ty=(540-by*s)*z;
+    const s0=0.96+0.04*eo(p(t,16.34,.3));
+    $('cam').style.transform=`translate(${tx}px,${ty}px) scale(${s*s0})`;
+    // cursor in page-local stage coords (pre-camera)
+    const btnX=180+985*.8125, btnY=95+56+292*.8125;
+    const m=eio(p(t,17.95,.75));const cx=btnX+60*(1-m)+ (1-m)*90, cy=btnY+ (1-m)*130;
+    $('cursor').style.left=(cx-6)+'px';$('cursor').style.top=(cy-4)+'px';$('cursor').style.width='16px';
+    $('cursor').style.opacity=p(t,17.85,.15);
+    const press=p(t,18.80,.08)-p(t,18.92,.15);
+    $('btn').style.transform=`scale(${1-.08*press})`;$('btn').style.background=press>0?'#e6eef8':'#fff';
+    const r=p(t,18.86,.55);const rp=$('ripple');const R=14+70*eo(r);
+    rp.style.width=rp.style.height=2*R+'px';rp.style.left=(960-R)+'px';rp.style.top=(282-R)+'px';rp.style.opacity=r>0&&r<1?(1-r):0;}
+  // S7
+  if(t>=20.02&&t<22.12){setSrc($('f7'),clip('c7',t-20.02));$('f7').style.transform=`scale(${1.05+0.04*p(t,20.02,2.1)})`;
+    rise($('t0'),t,20.10);rise($('t1'),t,20.54);rise($('t2'),t,21.06);}
+  // S8
+  if(t>=22.12){const k=back(p(t,22.18,.5));$('logo8').style.transform=`scale(${.9+.1*k})`;$('logo8').style.opacity=p(t,22.18,.2);
+    rise($('e1'),t,22.40);rise($('e2'),t,22.52);}
+  // blue wipe into S2 and into S6 (cover then reveal)
+  const W=$('wipe');W.style.display='none';
+  for(const c of [3.18,16.34]){const a=c-.2,b=c+.24;if(t>=a&&t<b){W.style.display='block';
+      const x=t<c? 1920-(2300+400)*eio(p(t,a,.2))+400 : -200-2300*eio(p(t,c,.24));
+      W.style.left=(t<c? (1920+200)-(2300)*eio(p(t,a,.2)) : -200-2400*eio(p(t,c,.24)))+'px';}}
+  // white dip into end card
+  $('flash').style.opacity=t>=21.96&&t<22.30?(t<22.12?p(t,21.96,.16):1-p(t,22.12,.18)):0;
+  await Promise.all(pending);
+};
+window.ready=document.fonts.ready.then(()=>Promise.all([...document.images].filter(i=>i.src).map(i=>i.decode().catch(()=>{}))));
+</script></body></html>
